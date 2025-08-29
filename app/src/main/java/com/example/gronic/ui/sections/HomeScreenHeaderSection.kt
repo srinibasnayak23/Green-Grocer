@@ -39,7 +39,6 @@ fun HomeScreenHeader(
     searchText: String,
     onSearchTextChange: (String) -> Unit,
     onLogoutClick: () -> Unit,
-    onChangeImageClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // Dropdown state

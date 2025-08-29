@@ -54,7 +54,6 @@ fun HomeScreen(
             searchText = searchQuery,
             onSearchTextChange = { searchQuery = it },
             onLogout,
-            onChangeImageClick = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

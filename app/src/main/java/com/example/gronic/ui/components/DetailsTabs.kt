@@ -84,7 +84,7 @@ fun DetailsTabs(
                 .padding(16.dp)
                 .height(180.dp)
                 .fillMaxWidth()
-        ) {
+       ) {
             if (reviews.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier.padding(16.dp),
