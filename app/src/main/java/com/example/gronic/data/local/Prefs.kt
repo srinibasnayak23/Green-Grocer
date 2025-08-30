@@ -1,21 +1,30 @@
 package com.example.gronic.data.local
 
 import android.content.Context
-import android.content.SharedPreferences
 
 class Prefs(context: Context) {
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("gronic_prefs", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences("gronic_prefs", Context.MODE_PRIVATE)
 
-    fun saveUser(email: String) {
-        prefs.edit().putString("user_email", email).apply()
+    fun saveUser(email: String, name: String? = null, empId: String? = null) {
+        prefs.edit().apply {
+            putString("email", email)
+            putString("name", name)
+            putString("emp_id", empId)
+            apply()
+        }
     }
 
-    fun getUser(): String? {
-        return prefs.getString("user_email", null)
+    fun getUser(): String? = prefs.getString("email", null)
+
+    fun getUserName(): String? {
+        return prefs.getString("username", null)
     }
 
     fun clearUser() {
-        prefs.edit().remove("user_email").apply()
+        prefs.edit().clear().apply()
+    }
+
+    fun getProfileImageResource(): String? {
+        return prefs.getString("img_path", null)
     }
 }

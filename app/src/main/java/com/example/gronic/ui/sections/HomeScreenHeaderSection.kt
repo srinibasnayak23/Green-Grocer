@@ -1,6 +1,7 @@
 package com.example.gronic.ui.sections
 
 import android.graphics.Bitmap
+import android.preference.PreferenceManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -30,9 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.gronic.R
+import com.example.gronic.data.local.Prefs
+import coil.compose.AsyncImage
 
 @Composable
 fun HomeScreenHeader(
@@ -44,6 +49,11 @@ fun HomeScreenHeader(
     // Dropdown state
     var expanded by remember { mutableStateOf(false) }
     var profileImage by remember { mutableStateOf<Bitmap?>(null) }
+
+    val context = LocalContext.current
+    val preferenceManager = remember { Prefs(context) }
+    val username = preferenceManager.getUserName() ?: "Guest"
+    val img_resource = preferenceManager.getProfileImageResource() ?: R.drawable.profile_img
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview()
@@ -62,7 +72,7 @@ fun HomeScreenHeader(
         ) {
             Column {
                 Text(
-                    "Hey 😊",
+                    "Hey ${username}😊",
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.White
                 )
@@ -92,19 +102,18 @@ fun HomeScreenHeader(
                                 .clip(CircleShape)
                         )
                     } else {
-                        Image(
-                            painter = painterResource(id = R.drawable.profile_img),
+                        AsyncImage(
+                            model = img_resource,
                             contentDescription = "Profile",
                             modifier = Modifier
                                 .size(42.dp)
-                                .clip(CircleShape)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop,
+//                            placeholder = painterResource(R.drawable.profile_img),
+//                            error = painterResource(R.drawable.profile_img)
                         )
+
                     }
-//                    Image(
-//                        painter = painterResource(id = R.drawable.profile_img),
-//                        contentDescription = "Profile",
-//                        modifier = Modifier.size(26.dp)
-//                    )
                 }
 
                 // Dropdown menu
